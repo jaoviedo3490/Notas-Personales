@@ -1,0 +1,13 @@
+.caja{
+    height:var();
+    width:var();
+}
+body{
+    font-family: century-gothic;
+}
+*{
+    box-sizing: border-box;
+}
+.r{
+    display:flex;
+}

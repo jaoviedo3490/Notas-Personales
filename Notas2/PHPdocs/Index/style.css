@@ -1,0 +1,11 @@
+form{
+    margin: 200px;
+}
+body{
+    background: #fff url(../../Base de datos/images-icons/Fondo.png) center center no-repeat fixed;
+}
+/*@media only screen and(max-width: 767px){
+    body{
+        background-image
+    }
+}*/
