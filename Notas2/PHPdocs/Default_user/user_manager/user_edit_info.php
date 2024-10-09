@@ -13,6 +13,8 @@ if(!isset($_SESSION['autentificado'])){
     global $objetivos;
     global $_ruta;
 
+    print_r($_SESSION["user_db"]);
+
     $id = $_SESSION['id_user'];
 ?>  
 
@@ -65,7 +67,7 @@ if(!isset($_SESSION['autentificado'])){
         </nav>
     <body><?php
         $_rol = $_SESSION['Roles'];
-        $consulta = "SELECT Nombre FROM roles WHERE id_roles =  $_rol ";
+        $consulta = "SELECT Nombre  FROM roles WHERE id_roles =  $_rol ";
         $query = $conexion->query($consulta);
         while($datosE=$query->fetch_assoc()){
             $GLOBALS['rol'] = $datosE['Nombre'];
@@ -116,7 +118,7 @@ if(!isset($_SESSION['autentificado'])){
                                        </tr>
                                        <tr>
                                            <th>Usuario:</th>
-                                           <td><?=$_SESSION['user']?></td>
+                                           <td><?=$_SESSION['user_db']?></td>
                                        </tr>
                                         <tr>
                                            <th>Nivel de Accesso:</th>
@@ -138,7 +140,7 @@ if(!isset($_SESSION['autentificado'])){
                     <div class="container-fluid m-2">
                             <div class="row-auto">
                                 <div class="col-auto m-4">
-                                        <a style="text-decoration: none;" class="btn btn-info" role="button"  href="edit_info.php?nombre=<?=$_SESSION['name_user']?>&user=<?=$_SESSION['user']?>">Editar Perfil</a>
+                                        <a style="text-decoration: none;" class="btn btn-info" role="button"  href="edit_info.php?nombre=<?=$_SESSION['name_user']?>&user=<?=$_SESSION['user_db']?>">Editar Perfil</a>
                                 </div>
                             </div>
                         </div>
@@ -156,7 +158,7 @@ if(!isset($_SESSION['autentificado'])){
                         <?php
                             if(!empty($_FILES['foto']['name'])){
                                 $foto = $_FILES['foto']['name'];
-                                $foto = str_replace(" ","_",$foto,strlen($foto));
+                                $foto = str_replace(" ","_",$foto);
                                 $ruta = "../../../Base_de_datos/images-icons/usuarios/".$foto;
                                 if(move_uploaded_file($_FILES['foto']['tmp_name'],$ruta)){
                                     $id_user = $_SESSION['id_user'];
