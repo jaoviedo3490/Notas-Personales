@@ -115,8 +115,8 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id_usuario`, `Nombres`, `Contrasena`, `usuario`, `Roles_id_roles`, `Ruta`) VALUES
-(7, 'Samir Vidal Barona', 'a125eaf95cef6f91190c20c5cf5fd0fc', 'admin@admin', 1, 'user_default.png'),
-(9, 'Aprendiz Sena', 'c8a8811e31e87a6cae2a97cfe2626093', 'Aorendiz@misena.edu.co', 2, 'user_default.png');
+(7, 'Instructor', 'contraseñaPROfesor123', 'admin@admin', 1, 'user_default.png'),
+(9, 'Aprendiz Sena', 'contraseñaAPRendiz123', 'Aorendiz@misena.edu.co', 2, 'user_default.png');
 
 --
 -- Índices para tablas volcadas
