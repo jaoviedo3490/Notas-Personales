@@ -119,7 +119,11 @@
                         <input class="btn btn-primary" name="actualizar" value="Actualizar Perfil" type="submit">
                     </div>
                 </div>
-            </form>
+            </form><div class="container">
+            <div class="container-fluid">
+                <p>La contraseña debe tener minimo 3 numeros , 2 letras mayusculas , 2 letras minusculas</p>
+            </div>
+        </div>
             <div class="container-fluid m-3">
                 <div class="row-auto">
                     <div class="col-auto">
@@ -138,23 +142,29 @@
                     $contraseña = htmlspecialchars(addslashes($_POST['pass']));
                     $passTest = htmlspecialchars(addslashes($_POST['pass_conf']));
                     $validarP = valPass($contraseña);
-                    if(!Validar('usuarios','usuario',$user_nick,$conexion) 
+                    if(Validar('usuario',$user_nick,$conexion) 
                         && $validarP == "contraseña_segura"){
-                            $contrasena = md5($contrasena);
-                            $consulta = "SELECT id_usuario FROM usuarios  WHERE usuario = $user_nick";
+                            $contrasena = md5($contraseña);
+                            $consulta = "SELECT id_usuario FROM usuarios  WHERE usuario = '$user_nick'";
                             $query = $conexion->query($consulta);
-                            if($query){
+                            
+                            
+                            if(!empty($query)){
                                     while($dato=$query->fetch_assoc()){
                                     $GLOBALS['id_edit_user'] = $dato['id_usuario'];
+                                    //print_r($query);
                                     }
-                                    if($id_edit_user==$id){
+                                    if($user_nick==$_REQUEST['user']){
                                         $crypt_pass = md5($contrasena);
-                                        $update = "UPDATE usuarios SET usuario = $user_nick , Nombres = $nombre , Contrasena = ".md5($contrasena)."";
-                                        $query = $conexion->query($consulta);
-                                        if($query){
+                                        $update = "UPDATE usuarios SET usuario = '$user_nick' , Nombres = '$nombre' , Contrasena = '".md5($contrasena)."' where id_usuario = ".$id;
+                                        $query = $conexion->query($update);
+                                        print_r(mysqli_error($conexion));
+                                        print_r("Filas afectadas ".$conexion->affected_rows);
+                                        print_r(" ".$update);
+                                        if(!empty($query)){
                                             echo "<script>".
                                                 "alert(\"Perfil actualizado correctamente!\")"
-                                                    ."location = \"user_edit_info.php\"</script>";
+                                                    ."</script>";
                                         }else{
                                             echo "<script>".
                                                 "alert(\"Error al acualizar su perfil, contacte con el administrador del sitio para mas informacion!\")"
@@ -165,10 +175,13 @@
                                     "alert(\"El usuario ya se encuentra registrado!\")</script>";
                             }
                         }else{
-                            echo "<script>".
-                                    "alert(\"Error al acceder a la base de datos, contacte con el administrador para mas informacion!\")"
-                                            ."location = \"user_edit_info.php\"</script>";
+                            echo "no mi papacho sos una verguenza para los programadores".$query;
+                            print_r("aqui: ".mysqli_error($conexion));
                         }
+                    }else{
+                        echo "error al validar la informacion<hr>";
+                        print_r(valPass($contraseña))."<hr>";
+                        print_r("aqui: ".Validar('usuario',$user_nick,$conexion));
                     }
             }else{
                 echo "<script>".
