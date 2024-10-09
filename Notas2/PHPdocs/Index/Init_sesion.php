@@ -47,7 +47,7 @@
             }
 
         </script>
-    <div >
+    <div>
     <nav class="navbar navbar-expand-md navbar-expand-lg navbar-dark bg-dark"> 
                 <div class="container-fluid m-auto">
                     <a class="navbar-brand" href="../Index/index.html">Mis notas.com</a>
@@ -108,27 +108,34 @@
                 </div>
             </form>
         </div>
+        </div>
     </body>
     <?php
         if(isset($_POST['envio'])){
             if(strlen($_POST['usuario'])>1 && strlen($_POST['Contrasena'])>1){
                 $_nick_name = htmlspecialchars(addslashes(trim($_POST['usuario'])));
                 $_password = htmlspecialchars(addslashes(trim($_POST['Contrasena'])));
-                $consulta = "SELECT * FROM usuarios WHERE usuario=\"$_nick_name\"";
+                $consulta = "SELECT * FROM usuarios WHERE nombres=\"$_nick_name\"";
                 $query = $conexion->query($consulta);
+                //print_r(mysqli_error($conexion));
+                //echo $consulta;
                 if($query){
                     while($datos = $query->fetch_assoc()){
+                        //print_r($datos);
                        $datosE['usuario'] = $datos['usuario'];
-                       $datosE['Contrasena'] = $datos['Contrasena'];
+                       $datosE['Contrasena'] = trim($datos['Contrasena']);
                        $datosE['Nombre'] = $datos['Nombres'];
                        $datosE['Rol'] = $datos['Roles_id_roles'];
                        $datosE['id_user'] = $datos['id_usuario'];
                        $datosE['Ruta'] = $datos['Ruta'];
                     }
-                    $crypt_pass = md5($_password);
+                    $crypt_pass = $_password;
+                    //print_r("AQUI: ".password_verify($datosE['Contrasena'],$crypt_pass)." || ".$datosE['Nombre'] ."".);
+                    //print_r($crypt_pass ." |||||| ".$datosE['Contrasena']);
+                    //print_r($_nick_name);
                     switch (@$datosE['Rol']) {
                         case 1:
-                            if($datosE['Contrasena']==$crypt_pass){
+                            if($crypt_pass==$datosE['Contrasena']){
                                     $_SESSION['user_db'] = $datosE['usuario'];
                                     $_SESSION['password_db'] = $datosE['Contrasena'];
                                     $_SESSION['name_user'] = $datosE['Nombre'];
@@ -147,6 +154,7 @@
                                     "alert(\"Usuario o contraseña incorrectos\")</script>";
                             break;
                         case 2:
+                            //print_r($crypt_pass ." == ".$datosE['Contrasena']);
                             if($datosE['Contrasena']==$crypt_pass){
                                     $_SESSION['user_db'] = $datosE['usuario'];
                                     $_SESSION['password_db'] = $datosE['Contrasena'];
