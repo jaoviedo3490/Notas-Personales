@@ -93,7 +93,11 @@ session_start();
                         <input class="btn btn-primary" name="enviar" type="submit">
                     </div>
                 </div>
-            </form>
+            </form><div class="container">
+            <div class="container-fluid">
+                <p>La contraseña debe tener minimo 3 numeros , 2 letras mayusculas , 2 letras minusculas</p>
+            </div>
+        </div>
         </div>
        <?php
        require('../Functions_and_secure/funciones.php');
@@ -108,7 +112,8 @@ session_start();
                     if($validarP=="contraseña_segura"){                     
                         if($contraseña == $_POST['pass_conf']){                     
                             if(!Validar('usuario',$user_nick,$conexion)){ 
-                                    $_crypt_pass = md5($contraseña);                        
+                                    //$_crypt_pass = password_hash($contraseña,PASSWORD_BCRYPT);   
+                                    $_crypt_pass = $contraseña;                     
                                     $consulta = "INSERT INTO usuarios(Nombres,Contrasena,usuario,Roles_id_roles,Ruta)"
                                     ." VALUES('$nombre','$_crypt_pass','$user_nick','2','user_default.png')";
                                     $query = mysqli_query($conexion, $consulta) or die (mysqli_error($conexion));
@@ -140,7 +145,7 @@ session_start();
                         echo "<script>".
                         "alert(\"La contraseña debe tener 3 numeros, 3 letras minusculas y 3 letras mayusculas\")</script>";
                     }else{
-                        echo "Error desconocido";
+                        echo $validarP ;
                     }
                 }else{
                     echo "<script>".
@@ -150,3 +155,4 @@ session_start();
     ?>
     </body>
 </html>
+
