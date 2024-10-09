@@ -44,18 +44,20 @@
     }
     //aqui valido que al crear una cuenta con un correo , ya no se pueda crear otra con el mismo
 function Validar($param,$param2,$param3){
+    $var = "por defecto";
     $sqlC = "SELECT * FROM usuarios WHERE $param = \"$param2\" ;";
     $Ingreso = mysqli_query($param3,$sqlC) or die (mysqli_error($param3));
         if($Ingreso){
             while($emails= mysqli_fetch_assoc($Ingreso))
                 $datosE = $emails['usuario'];
-            
             if(isset($datosE)){
-            if($datosE==$param2)
-                return true;
+                if($datosE==$param2)
+                    $var= true;
         }else
-            return false;
-    }
+            $var = "aqui1";
+    }else{
+        $var = "aqui2";
+    }return "$var";
 }
 
 function obtenerColumnas($param,$param2,$param3,$param4,$param5){
@@ -73,6 +75,8 @@ function Num_cols($param,$param2,$param3){
     $consulta = "SELECT COUNT($param) FROM $param2";
     return $query = $param3->query($consulta);
 }
+
+
 
 
 
